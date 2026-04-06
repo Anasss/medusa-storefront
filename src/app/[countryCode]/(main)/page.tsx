@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { Suspense } from "react"
 
 import Hero from "@modules/home/components/hero"
+import PromoBanner from "@modules/home/components/promo-banner"
 import ValueProps from "@modules/home/components/value-props"
 import FeaturedCategories from "@modules/home/components/featured-categories"
 import ProductSlider from "@modules/home/components/product-slider"
@@ -28,6 +29,9 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
+      <Suspense fallback={null}>
+        <PromoBanner />
+      </Suspense>
       <ValueProps />
       <Suspense fallback={<div className="py-24" />}>
         <FeaturedCategories />
