@@ -28,10 +28,14 @@ export default async function Nav() {
           <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+              className="hover:opacity-80 transition-opacity"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              <img
+                src="/doqaland-store-logo.png"
+                alt="Doqaland Store"
+                className="h-14 w-auto"
+              />
             </LocalizedClientLink>
           </div>
 

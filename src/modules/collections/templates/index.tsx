@@ -11,11 +11,15 @@ export default function CollectionTemplate({
   collection,
   page,
   countryCode,
+  minPrice,
+  maxPrice,
 }: {
   sortBy?: SortOptions
   collection: HttpTypes.StoreCollection
   page?: string
   countryCode: string
+  minPrice?: string
+  maxPrice?: string
 }) {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
@@ -39,6 +43,8 @@ export default function CollectionTemplate({
             page={pageNumber}
             collectionId={collection.id}
             countryCode={countryCode}
+            minPrice={minPrice ? parseInt(minPrice) : undefined}
+            maxPrice={maxPrice ? parseInt(maxPrice) : undefined}
           />
         </Suspense>
       </div>

@@ -48,3 +48,33 @@ export function sortProducts(
 
   return sortedProducts
 }
+
+/**
+ * Filter products by price range using calculated_price
+ */
+export function filterByPrice(
+  products: HttpTypes.StoreProduct[],
+  minPrice?: number,
+  maxPrice?: number
+): HttpTypes.StoreProduct[] {
+  if (minPrice == null && maxPrice == null) {
+    return products
+  }
+
+  return products.filter((product) => {
+    if (!product.variants || product.variants.length === 0) return false
+
+    const prices = product.variants
+      .map((v) => v?.calculated_price?.calculated_amount)
+      .filter((p): p is number => p != null)
+
+    if (prices.length === 0) return false
+
+    const cheapest = Math.min(...prices)
+
+    if (minPrice != null && cheapest < minPrice) return false
+    if (maxPrice != null && cheapest > maxPrice) return false
+
+    return true
+  })
+}

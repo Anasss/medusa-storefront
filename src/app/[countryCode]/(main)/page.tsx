@@ -1,41 +1,45 @@
 import { Metadata } from "next"
+import { Suspense } from "react"
 
-import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
-import { listCollections } from "@lib/data/collections"
+import ValueProps from "@modules/home/components/value-props"
+import FeaturedCategories from "@modules/home/components/featured-categories"
+import ProductSlider from "@modules/home/components/product-slider"
+import Newsletter from "@modules/home/components/newsletter"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "Doqaland Store — Modern Fashion & Lifestyle",
   description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+    "Discover timeless fashion essentials crafted for everyday living. Shop clothing, accessories, and more at Doqaland Store.",
 }
 
 export default async function Home(props: {
   params: Promise<{ countryCode: string }>
 }) {
   const params = await props.params
-
   const { countryCode } = params
-
   const region = await getRegion(countryCode)
 
-  const { collections } = await listCollections({
-    fields: "id, handle, title",
-  })
-
-  if (!collections || !region) {
+  if (!region) {
     return null
   }
 
   return (
     <>
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
+      <ValueProps />
+      <Suspense fallback={<div className="py-24" />}>
+        <FeaturedCategories />
+      </Suspense>
+      <Suspense fallback={<div className="py-24" />}>
+        <ProductSlider
+          region={region}
+          title="Trending Now"
+          subtitle="Customer Favorites"
+        />
+      </Suspense>
+      <Newsletter />
     </>
   )
 }

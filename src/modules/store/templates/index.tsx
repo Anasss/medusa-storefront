@@ -10,10 +10,14 @@ const StoreTemplate = ({
   sortBy,
   page,
   countryCode,
+  minPrice,
+  maxPrice,
 }: {
   sortBy?: SortOptions
   page?: string
   countryCode: string
+  minPrice?: string
+  maxPrice?: string
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
@@ -33,6 +37,8 @@ const StoreTemplate = ({
             sortBy={sort}
             page={pageNumber}
             countryCode={countryCode}
+            minPrice={minPrice ? parseInt(minPrice) : undefined}
+            maxPrice={maxPrice ? parseInt(maxPrice) : undefined}
           />
         </Suspense>
       </div>

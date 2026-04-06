@@ -14,11 +14,15 @@ export default function CategoryTemplate({
   sortBy,
   page,
   countryCode,
+  minPrice,
+  maxPrice,
 }: {
   category: HttpTypes.StoreProductCategory
   sortBy?: SortOptions
   page?: string
   countryCode: string
+  minPrice?: string
+  maxPrice?: string
 }) {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
@@ -89,6 +93,8 @@ export default function CategoryTemplate({
             page={pageNumber}
             categoryId={category.id}
             countryCode={countryCode}
+            minPrice={minPrice ? parseInt(minPrice) : undefined}
+            maxPrice={maxPrice ? parseInt(maxPrice) : undefined}
           />
         </Suspense>
       </div>
