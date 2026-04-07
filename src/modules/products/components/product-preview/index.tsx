@@ -1,32 +1,27 @@
 import { Text } from "@medusajs/ui"
-import { listProducts } from "@lib/data/products"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
+import QuickAddButton from "../quick-add-button"
 
 export default async function ProductPreview({
   product,
   isFeatured,
   region,
+  countryCode,
 }: {
   product: HttpTypes.StoreProduct
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
+  countryCode?: string
 }) {
-  // const pricedProduct = await listProducts({
-  //   regionId: region.id,
-  //   queryParams: { id: [product.id!] },
-  // }).then(({ response }) => response.products[0])
-
-  // if (!pricedProduct) {
-  //   return null
-  // }
-
   const { cheapestPrice } = getProductPrice({
     product,
   })
+
+  const firstVariant = product.variants?.[0]
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
@@ -45,6 +40,14 @@ export default async function ProductPreview({
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
         </div>
+        {firstVariant && countryCode && (
+          <div className="mt-2">
+            <QuickAddButton
+              variantId={firstVariant.id}
+              countryCode={countryCode}
+            />
+          </div>
+        )}
       </div>
     </LocalizedClientLink>
   )
